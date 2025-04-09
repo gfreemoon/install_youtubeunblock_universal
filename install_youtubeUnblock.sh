@@ -1,5 +1,3 @@
-#!/bin/sh
-
 echo "=== Автоматическая установка youtubeUnblock и luci-app-youtubeUnblock ==="
 
 ARCH=$(uname -m)
@@ -55,8 +53,14 @@ opkg list-installed | grep kmod-nft
 
 # Шаг 4. Скачивание и установка youtubeUnblock
 echo "Скачиваем пакет youtubeUnblock..."
-wget "https://github.com/Waujito/youtubeUnblock/releases/download/v1.0.0/$PKG"
+wget -O "/tmp/$PKG" "https://github.com/Waujito/youtubeUnblock/releases/download/v1.0.0/$PKG"
 [ $? -eq 0 ] && echo "  Пакет youtubeUnblock скачан" || { echo "  Ошибка скачивания youtubeUnblock"; exit 1; }
+
+# Проверка существования файла
+if [ ! -f "/tmp/$PKG" ]; then
+    echo "Ошибка: файл $PKG не был найден в /tmp"
+    exit 1
+fi
 
 echo "Устанавливаем youtubeUnblock..."
 opkg install "/tmp/$PKG"
@@ -64,7 +68,7 @@ opkg install "/tmp/$PKG"
 
 # Шаг 5. Установка luci-app-youtubeUnblock
 echo "Скачиваем пакет luci-app-youtubeUnblock..."
-wget "https://github.com/Waujito/youtubeUnblock/releases/download/v1.0.0/luci-app-youtubeUnblock-1.0.0-10-f37c3dd.ipk"
+wget -O "/tmp/luci-app-youtubeUnblock-1.0.0-10-f37c3dd.ipk" "https://github.com/Waujito/youtubeUnblock/releases/download/v1.0.0/luci-app-youtubeUnblock-1.0.0-10-f37c3dd.ipk"
 [ $? -eq 0 ] && echo "  Пакет luci-app-youtubeUnblock скачан" || { echo "  Ошибка скачивания luci-app-youtubeUnblock"; exit 1; }
 
 echo "Устанавливаем luci-app-youtubeUnblock..."
