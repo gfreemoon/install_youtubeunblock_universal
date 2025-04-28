@@ -15,6 +15,7 @@ https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Catego
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Categories/block.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Categories/news.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Categories/porn.lst
+https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/telegram.lst
 https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/main_domains/discord-main-domains-list
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/hdrezka.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/meta.lst
