@@ -28,7 +28,7 @@ for url in $URLS; do
     echo "Processing $url..."
     
     author=$(echo "$url" | cut -d'/' -f4)
-    filename=$(echo "$url" | awk -F/ '{print $NF}' | sed 's/.lst$//;s/%20/-/g;s/%/-/g')
+    filename=$(echo "$url" | awk -F/ '{print $NF}' | sed 's/\.lst$//;s/\.txt$//;s/%20/-/g;s/%//g')
     
     if [ "$filename" = "Microsoft_Domains" ]; then
         final_name="xbox-full-list"
