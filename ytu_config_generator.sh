@@ -1,15 +1,13 @@
 #!/bin/sh
 
+cp /etc/config/youtubeUnblock /etc/config/youtubeUnblock.bak
+
 cat > /etc/config/youtubeUnblock << 'EOF'
 config youtubeUnblock 'youtubeUnblock'
 	option conf_strat 'ui_flags'
 	option packet_mark '32768'
 	option queue_num '537'
 	option no_ipv6 '1'
-EOF
-
-cat > /etc/config/youtubeUnblock << 'EOF'
-
 EOF
 
 URLS="
@@ -43,7 +41,7 @@ for url in $URLS; do
         continue
     fi
     
-    cat > /etc/config/youtubeUnblock << EOF
+    cat >> /etc/config/youtubeUnblock << EOF
 
 config section
 	option name '$final_name'
@@ -92,7 +90,6 @@ EOF
         "youtube-itdoginfo")
             echo "	list sni_domains 'play.google.com'" >> /etc/config/youtubeUnblock
             ;;
-
         "Microsoft-Domains-HotCakeX")
             echo "	list udp_dport_filter '88,3074,53,80,500,3544,4500'" >> /etc/config/youtubeUnblock
             ;;
