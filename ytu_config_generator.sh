@@ -19,7 +19,6 @@ https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Servic
 https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/main_domains/discord-main-domains-list
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/hdrezka.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/meta.lst
-https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/tiktok.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/twitter.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/youtube.lst
 https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/refs/heads/main/Microsoft%20Domains.txt
