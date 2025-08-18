@@ -1,13 +1,18 @@
 #!/bin/sh
 
+if [ -f /etc/init.d/youtubeUnblock ]; then
+    echo "Stopping youtubeUnblock service..."
+    /etc/init.d/youtubeUnblock stop
+fi
+
 cp /etc/config/youtubeUnblock /etc/config/youtubeUnblock.bak
 
 cat > /etc/config/youtubeUnblock << 'EOF'
 config youtubeUnblock 'youtubeUnblock'
-	option conf_strat 'ui_flags'
-	option packet_mark '32768'
-	option queue_num '537'
-	option no_ipv6 '1'
+    option conf_strat 'ui_flags'
+    option packet_mark '32768'
+    option queue_num '537'
+    option no_ipv6 '1'
 EOF
 
 URLS="
@@ -44,64 +49,69 @@ for url in $URLS; do
     cat >> /etc/config/youtubeUnblock << EOF
 
 config section
-	option name '$final_name'
-	option tls_enabled '1'
-	option fake_sni '1'
-	option faking_strategy 'pastseq'
-	option fake_sni_seq_len '1'
-	option fake_sni_type 'default'
-	option frag 'tcp'
-	option frag_sni_reverse '1'
-	option frag_sni_faked '0'
-	option frag_middle_sni '1'
-	option frag_sni_pos '1'
-	option seg2delay '0'
-	option fk_winsize '0'
-	option synfake '0'
-	option all_domains '0'
+    option name '$final_name'
+    option tls_enabled '1'
+    option fake_sni '1'
+    option faking_strategy 'pastseq'
+    option fake_sni_seq_len '1'
+    option fake_sni_type 'default'
+    option frag 'tcp'
+    option frag_sni_reverse '1'
+    option frag_sni_faked '0'
+    option frag_middle_sni '1'
+    option frag_sni_pos '1'
+    option seg2delay '0'
+    option fk_winsize '0'
+    option synfake '0'
+    option all_domains '0'
 EOF
 
     if [ "$final_name" = "discord-main-domains-list-GhostRooter0953" ]; then
-        echo "	list udp_dport_filter '50000-50100'" >> /etc/config/youtubeUnblock
+        echo "    list udp_dport_filter '50000-50100'" >> /etc/config/youtubeUnblock
     fi
 
     if [ "$final_name" = "youtube-itdoginfo" ]; then
-        echo "	option quic_drop '0'" >> /etc/config/youtubeUnblock
+        echo "    option quic_drop '0'" >> /etc/config/youtubeUnblock
     fi
 
     cat >> /etc/config/youtubeUnblock << EOF
-	option sni_detection 'parse'
-	option udp_mode 'fake'
-	option udp_faking_strategy 'none'
-	option udp_fake_seq_len '6'
-	option udp_fake_len '64'
-	option udp_filter_quic 'disabled'
-	option enabled '1'
+    option sni_detection 'parse'
+    option udp_mode 'fake'
+    option udp_faking_strategy 'none'
+    option udp_fake_seq_len '6'
+    option udp_fake_len '64'
+    option udp_filter_quic 'disabled'
+    option enabled '1'
 EOF
 
     while read -r domain; do
-        [ -n "$domain" ] && echo "	list sni_domains '$domain'" >> /etc/config/youtubeUnblock
+        [ -n "$domain" ] && echo "    list sni_domains '$domain'" >> /etc/config/youtubeUnblock
     done < /tmp/temp_list.txt
 
     case $final_name in
         "hdrezka-itdoginfo")
-            echo "	list sni_domains 'hdrezka.es'" >> /etc/config/youtubeUnblock
+            echo "    list sni_domains 'hdrezka.es'" >> /etc/config/youtubeUnblock
             ;;
         "youtube-itdoginfo")
-            echo "	list sni_domains 'play.google.com'" >> /etc/config/youtubeUnblock
+            echo "    list sni_domains 'play.google.com'" >> /etc/config/youtubeUnblock
             ;;
         "Microsoft-Domains-HotCakeX")
-            echo "	list udp_dport_filter '88'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '3074'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '53'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '80'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '500'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '3544'" >> /etc/config/youtubeUnblock
-            echo "	list udp_dport_filter '4500'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '88'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '3074'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '53'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '80'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '500'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '3544'" >> /etc/config/youtubeUnblock
+            echo "    list udp_dport_filter '4500'" >> /etc/config/youtubeUnblock
             ;;
     esac
 
     rm -f /tmp/temp_list.txt
 done
+
+if [ -f /etc/init.d/youtubeUnblock ]; then
+    echo "Restarting youtubeUnblock service..."
+    /etc/init.d/youtubeUnblock restart
+fi
 
 echo "Configuration saved to /etc/config/youtubeUnblock"
