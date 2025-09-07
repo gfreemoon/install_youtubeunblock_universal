@@ -70,6 +70,8 @@ echo "Устанавливаем youtubeUnblock..."
 opkg install "/tmp/$PKG"
 [ $? -eq 0 ] && echo "  youtubeUnblock установлен успешно" || { echo "  Ошибка установки youtubeUnblock"; exit 1; }
 
+/etc/init.d/youtubeUnblock stop
+
 # Шаг 5. Установка luci-app-youtubeUnblock
 echo "Скачиваем пакет luci-app-youtubeUnblock..."
 wget -O "/tmp/$LUCI_PKG" "$RELEASE_URL/$LUCI_PKG"
@@ -82,6 +84,7 @@ opkg install "/tmp/$LUCI_PKG"
 # Шаг 6. Включение автозапуска youtubeUnblock
 echo "Включаем автозапуск youtubeUnblock..."
 /etc/init.d/youtubeUnblock enable
+/etc/init.d/youtubeUnblock start
 [ $? -eq 0 ] && echo "  youtubeUnblock настроен на автозапуск" || { echo "  Ошибка включения автозапуска youtubeUnblock"; exit 1; }
 
 # Шаг 7. Чистим временные файлы
