@@ -95,7 +95,7 @@ done
 cat >> /etc/config/youtubeUnblock << EOF
 
 config section
-    option name 'CallsWhatsAppTelegram'
+    option name 'CallsWhatsAppTelegram-routerich'
     option tls_enabled '0'
     option all_domains '0'
     list sni_domains 'cdn-telegram.org'
