@@ -64,10 +64,6 @@ config section
     option all_domains '0'
 EOF
 
-    if [ "$final_name" = "discord-main-domains-list-GhostRooter0953" ]; then
-        echo "    list udp_dport_filter '50000-50100'" >> /etc/config/youtubeUnblock
-    fi
-
     if [ "$final_name" = "youtube-itdoginfo" ]; then
         echo "    option quic_drop '0'" >> /etc/config/youtubeUnblock
     fi
