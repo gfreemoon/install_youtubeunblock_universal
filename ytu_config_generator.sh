@@ -65,7 +65,7 @@ config section
 EOF
 
     if [ "$final_name" = "youtube-itdoginfo" ]; then
-        echo "    option quic_drop '0'" >> /etc/config/youtubeUnblock
+        echo "    option quic_drop '1'" >> /etc/config/youtubeUnblock
     fi
 
     cat >> /etc/config/youtubeUnblock << EOF
