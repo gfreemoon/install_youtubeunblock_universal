@@ -25,7 +25,6 @@ https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Servic
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/meta.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/twitter.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/youtube.lst
-https://raw.githubusercontent.com/HotCakeX/MicrosoftDomains/refs/heads/main/Microsoft%20Domains.txt
 "
 
 for url in $URLS; do
