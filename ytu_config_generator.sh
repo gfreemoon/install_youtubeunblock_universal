@@ -33,12 +33,6 @@ for url in $URLS; do
     author=$(echo "$url" | cut -d'/' -f4)
     filename=$(echo "$url" | awk -F/ '{print $NF}' | sed 's/\.lst$//;s/\.txt$//;s/%20/-/g;s/%//g')
     
-    if [ "$filename" = "Microsoft_Domains" ]; then
-        final_name="xbox-full-list"
-    else
-        final_name="${filename}-${author}"
-    fi
-    
     if ! curl -s -o /tmp/temp_list.txt "$url"; then
         echo "Error downloading $url"
         continue
@@ -66,6 +60,10 @@ EOF
 
     if [ "$final_name" = "youtube-itdoginfo" ]; then
         echo "    option quic_drop '1'" >> /etc/config/youtubeUnblock
+    fi
+
+    if [ "$final_name" = "discord-main-domains-list-GhostRooter0953" ]; then
+        echo "	list udp_dport_filter '50000-50100'" >> /etc/config/youtubeUnblock
     fi
 
     cat >> /etc/config/youtubeUnblock << EOF
