@@ -89,15 +89,6 @@ EOF
         "youtube-itdoginfo")
             echo "    list sni_domains 'play.google.com'" >> /etc/config/youtubeUnblock
             ;;
-        "Microsoft-Domains-HotCakeX")
-            echo "    list udp_dport_filter '88'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '3074'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '53'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '80'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '500'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '3544'" >> /etc/config/youtubeUnblock
-            echo "    list udp_dport_filter '4500'" >> /etc/config/youtubeUnblock
-            ;;
     esac
 
     rm -f /tmp/temp_list.txt
