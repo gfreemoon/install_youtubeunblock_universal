@@ -32,6 +32,7 @@ for url in $URLS; do
     
     author=$(echo "$url" | cut -d'/' -f4)
     filename=$(echo "$url" | awk -F/ '{print $NF}' | sed 's/\.lst$//;s/\.txt$//;s/%20/-/g;s/%//g')
+    final_name="${filename}-${author}"
     
     if ! curl -s -o /tmp/temp_list.txt "$url"; then
         echo "Error downloading $url"
