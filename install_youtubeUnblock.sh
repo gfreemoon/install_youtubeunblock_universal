@@ -10,6 +10,40 @@ if [ -z "$ARCH" ]; then
 fi
 echo "Обнаружена архитектура: $ARCH"
 
+# Проверяем установленные модули kmod
+echo "Проверяем установленные модули kmod..."
+KMOD_NFT_QUEUE_INSTALLED=$(opkg list-installed | grep -q "kmod-nft-queue" && echo "yes" || echo "no")
+KMOD_NFNETLINK_QUEUE_INSTALLED=$(opkg list-installed | grep -q "kmod-nfnetlink-queue" && echo "yes" || echo "no")
+
+if [ "$KMOD_NFT_QUEUE_INSTALLED" = "yes" ] && [ "$KMOD_NFNETLINK_QUEUE_INSTALLED" = "yes" ]; then
+    echo "  Модули kmod-nft-queue и kmod-nfnetlink-queue уже установлены"
+else
+    echo "  Один или оба модуля kmod не установлены. Выполняем обновление и установку..."
+    
+    # Шаг 1. Обновление списка пакетов
+    echo "Обновляем список пакетов..."
+    opkg update
+    [ $? -eq 0 ] && echo "  Список пакетов обновлён" || { echo "  Ошибка обновления списка пакетов"; exit 1; }
+    
+    # Шаг 2. Установка недостающих модулей
+    if [ "$KMOD_NFT_QUEUE_INSTALLED" != "yes" ] || [ "$KMOD_NFNETLINK_QUEUE_INSTALLED" != "yes" ]; then
+        echo "Устанавливаем недостающие модули kmod..."
+        if [ "$KMOD_NFT_QUEUE_INSTALLED" != "yes" ]; then
+            opkg install kmod-nft-queue
+            [ $? -eq 0 ] || { echo "  Ошибка установки kmod-nft-queue"; exit 1; }
+        fi
+        if [ "$KMOD_NFNETLINK_QUEUE_INSTALLED" != "yes" ]; then
+            opkg install kmod-nfnetlink-queue
+            [ $? -eq 0 ] || { echo "  Ошибка установки kmod-nfnetlink-queue"; exit 1; }
+        fi
+        echo "  Все необходимые модули kmod установлены"
+    fi
+fi
+
+# Проверка после установки/проверки
+opkg list-installed | grep kmod-nft
+[ $? -eq 0 ] && echo "  Пакеты kmod-nft обнаружены" || { echo "  Ошибка: пакеты kmod-nft не найдены"; exit 1; }
+
 # Получаем latest tag из URL релиза
 LATEST_TAG=$(wget -qO- https://github.com/Waujito/youtubeUnblock/releases/latest/ | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
 if [ -z "$LATEST_TAG" ]; then
@@ -40,22 +74,7 @@ if [ -z "$LUCI_PKG" ]; then
 fi
 echo "Выбран пакет luci-app: $LUCI_PKG"
 
-# Шаг 1. Обновление списка пакетов
-echo "Обновляем список пакетов..."
-opkg update
-[ $? -eq 0 ] && echo "  Список пакетов обновлён" || { echo "  Ошибка обновления списка пакетов"; exit 1; }
-
-# Шаг 2. Установка модулей для nftables
-echo "Устанавливаем модули kmod-nft-queue и kmod-nfnetlink-queue..."
-opkg install kmod-nft-queue kmod-nfnetlink-queue
-[ $? -eq 0 ] && echo "  Модули установлены" || { echo "  Ошибка установки модулей"; exit 1; }
-
-# Шаг 3. Проверка установленных пакетов
-echo "Проверяем установку kmod-nft..."
-opkg list-installed | grep kmod-nft
-[ $? -eq 0 ] && echo "  Пакеты kmod-nft обнаружены" || { echo "  Пакеты kmod-nft не найдены"; exit 1; }
-
-# Шаг 4. Скачивание и установка youtubeUnblock
+# Шаг 3. Скачивание и установка youtubeUnblock
 echo "Скачиваем пакет youtubeUnblock..."
 wget -O "/tmp/$PKG" "$RELEASE_URL/$PKG"
 [ $? -eq 0 ] && echo "  Пакет youtubeUnblock скачан" || { echo "  Ошибка скачивания youtubeUnblock"; exit 1; }
@@ -72,7 +91,7 @@ opkg install "/tmp/$PKG"
 
 /etc/init.d/youtubeUnblock stop
 
-# Шаг 5. Установка luci-app-youtubeUnblock
+# Шаг 4. Установка luci-app-youtubeUnblock
 echo "Скачиваем пакет luci-app-youtubeUnblock..."
 wget -O "/tmp/$LUCI_PKG" "$RELEASE_URL/$LUCI_PKG"
 [ $? -eq 0 ] && echo "  Пакет luci-app-youtubeUnblock скачан" || { echo "  Ошибка скачивания luci-app-youtubeUnblock"; exit 1; }
@@ -81,13 +100,13 @@ echo "Устанавливаем luci-app-youtubeUnblock..."
 opkg install "/tmp/$LUCI_PKG"
 [ $? -eq 0 ] && echo "  luci-app-youtubeUnblock установлен успешно" || { echo "  Ошибка установки luci-app-youtubeUnblock"; exit 1; }
 
-# Шаг 6. Включение автозапуска youtubeUnblock
+# Шаг 5. Включение автозапуска youtubeUnblock
 echo "Включаем автозапуск youtubeUnblock..."
 /etc/init.d/youtubeUnblock enable
 /etc/init.d/youtubeUnblock start
 [ $? -eq 0 ] && echo "  youtubeUnblock настроен на автозапуск" || { echo "  Ошибка включения автозапуска youtubeUnblock"; exit 1; }
 
-# Шаг 7. Чистим временные файлы
-rm /tmp/*.ipk
+# Шаг 6. Чистим временные файлы
+rm -f /tmp/*.ipk
 
 echo "=== Установка завершена успешно ==="
