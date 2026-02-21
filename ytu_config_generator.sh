@@ -27,6 +27,9 @@ https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Servic
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/youtube.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/google_play.lst
 https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Categories/hodca.lst
+https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/roblox.lst
+https://raw.githubusercontent.com/itdoginfo/allow-domains/refs/heads/main/Services/telegram.lst
+
 "
 
 for url in $URLS; do
