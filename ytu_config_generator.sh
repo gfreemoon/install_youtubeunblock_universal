@@ -38,7 +38,6 @@ for url in $URLS; do
     filename=$(echo "$url" | awk -F/ '{print $NF}' | sed 's/\.lst$//;s/\.txt$//;s/%20/-/g;s/%//g')
     final_name="${filename}-${author}"
     
-    # Здесь curl заменен на wget
     if ! wget -q -O /tmp/temp_list.txt "$url"; then
         echo "Error downloading $url"
         continue
